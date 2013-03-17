@@ -19,7 +19,7 @@ public class World extends EventManager {
 	public World() {
 		this.lastTime = System.nanoTime() / 1000000;
 	}
-
+//some stuff
 	public void update() {
 		long delta = (System.nanoTime() / 1000000) - lastTime;
 		lastTime = System.nanoTime() / 1000000;
