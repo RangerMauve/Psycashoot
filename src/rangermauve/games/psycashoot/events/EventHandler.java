@@ -1,4 +1,4 @@
-package rangermauve.games.psycashoot.Events;
+package rangermauve.games.psycashoot.events;
 
 /**
  * A generic EventHandler that doesn't do anything

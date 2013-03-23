@@ -1,4 +1,4 @@
-package rangermauve.games.psycashoot.Events;
+package rangermauve.games.psycashoot.events;
 
 /**
  * This is the basic interface for any events processed in the game
@@ -10,7 +10,7 @@ public interface Event {
 	/**
 	 * The unique name of the event
 	 * 
-	 * @return The name of the event
+	 * @return The type of the event
 	 */
-	public String getName();
+	public String getType();
 }

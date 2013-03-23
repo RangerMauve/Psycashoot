@@ -1,4 +1,4 @@
-package rangermauve.games.psycashoot.Events;
+package rangermauve.games.psycashoot.events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -46,8 +46,8 @@ public class EventManager {
 		synchronized (events) {
 			while (!events.isEmpty()) {
 				next = events.poll();
-				if (this.hasRegistered(next.getName())) {
-					for (EventHandler h : this.getHandlers(next.getName())) {
+				if (this.hasRegistered(next.getType())) {
+					for (EventHandler h : this.getHandlers(next.getType())) {
 						h.handleEvent(next);
 					}
 				}
@@ -62,7 +62,8 @@ public class EventManager {
 	 *            The event you want to Queue
 	 */
 	public void emit(Event event) {
-		this.events.add(event);
+		if(this.hasRegistered(event.getType()))
+			this.events.add(event);
 	}
 
 	/**
