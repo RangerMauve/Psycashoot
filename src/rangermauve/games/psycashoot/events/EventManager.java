@@ -2,16 +2,18 @@ package rangermauve.games.psycashoot.events;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Queue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
  * Manages events, allows you to bind to events and fire them off.
+ * 
  * @author Mauve
  * 
  */
 public class EventManager {
-	private LinkedBlockingQueue<Event> events;
-	private HashMap<String, ArrayList<EventHandler>> handlers;
+	private Queue<Event> events = new LinkedBlockingQueue<Event>();
+	private HashMap<String, ArrayList<EventHandler>> handlers = new HashMap<String, ArrayList<EventHandler>>();
 
 	/**
 	 * Returns whether the event type has been registered yet.
@@ -43,13 +45,16 @@ public class EventManager {
 	 */
 	public void processEvents() {
 		Event next = null;
+		Queue<Event> queue;
 		synchronized (events) {
-			while (!events.isEmpty()) {
-				next = events.poll();
-				if (this.hasRegistered(next.getType())) {
-					for (EventHandler h : this.getHandlers(next.getType())) {
-						h.handleEvent(next);
-					}
+			queue = new LinkedBlockingQueue<Event>(events);
+			events.clear();
+		}
+		while (!queue.isEmpty()) {
+			next = queue.poll();
+			if (this.hasRegistered(next.getType())) {
+				for (EventHandler h : this.getHandlers(next.getType())) {
+					h.handleEvent(next);
 				}
 			}
 		}
@@ -62,7 +67,7 @@ public class EventManager {
 	 *            The event you want to Queue
 	 */
 	public void emit(Event event) {
-		if(this.hasRegistered(event.getType()))
+		if (this.hasRegistered(event.getType()))
 			this.events.add(event);
 	}
 
